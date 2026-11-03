@@ -510,6 +510,199 @@ body.finale-open{overflow:hidden}
 .edu-list .ti .yr{font-size:clamp(25px,2.8vw,38px)}
 @media(max-width:760px){.ti{grid-template-columns:1fr;gap:14px}.xp-date{gap:4px}.xp-list .yr{font-size:40px}.xp-card .xp-header{flex-wrap:wrap;gap:10px}.xp-period{white-space:normal}}
 @media(max-width:400px){.xp-card{padding:17px}.xp-card ul{font-size:13px}}
+
+/* ===== MOBILE: DESKTOP COMPOSITION AT A SMALLER SCALE =====
+   Preserve the seven radial menu positions, cables, page columns and bento
+   composition. Only dimensions/type/gaps are reduced to fit narrow screens.
+   Desktop CSS above is intentionally left unchanged. */
+@media (max-width:760px){
+  html{scrollbar-gutter:auto}
+  /* HOME: same absolute radial geometry as desktop, NOT a stacked mobile grid. */
+  .hub{position:relative;display:block;height:100svh;min-height:0;max-width:100%;padding:0;margin:0 auto;overflow:clip}
+  .hub svg.lines{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .hub .char{position:absolute;left:50%;top:52%;height:min(38svh,62vw);width:auto;max-width:none;margin:0;aspect-ratio:341/428;transform:translate(-50%,-50%)}
+  .hub .char img{display:block;width:auto;height:100%;object-fit:contain}
+  .hub .node{position:absolute!important;display:flex;align-items:center;grid-column:auto;min-height:0;max-width:none;transform:translate(-50%,-50%);padding:7px 7px;gap:4px;border-left-width:2px;font-size:clamp(7.5px,2.1vw,10px);font-weight:800;letter-spacing:0;line-height:1.1;white-space:nowrap}
+  .hub .node svg{width:clamp(11px,3.3vw,14px);height:clamp(11px,3.3vw,14px)}
+  .hub .node .n,.hub .node .arrow{display:none}
+  .hubmeta{position:absolute;grid-column:auto;left:auto;right:10px;bottom:9px;max-width:43%;margin:0;font-size:8px;line-height:1.25;text-align:right}
+  .hubmeta b{font-size:clamp(12px,3.5vw,18px);line-height:1.05}
+  .hubmeta .replay-reward{font-size:7px;line-height:1.2;padding:5px;margin:6px 0 0 auto;pointer-events:auto}
+  .hub::before{background-size:24px 24px}
+  .tech-layer .tech-svg{display:block;opacity:.65}
+  .tech-layer::after{content:none}
+  .tech-mark.top-left{top:10px;left:10px;font-size:7px}
+  .tech-mark.top-right{top:10px;right:10px;font-size:7px}
+  .tech-mark.bottom-right{display:none}
+  .tech-corner{display:none}
+  .tech-hatch,.tech-crosshair{display:none}
+  .hub::after{display:block;height:38px;opacity:.28}
+
+  /* Detail pages preserve the desktop multi-column hierarchy. */
+  .page{max-width:100%;padding:15px 10px 48px}
+  .back{padding:6px 8px;gap:5px;font-size:9px}
+  .ph1{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px;margin:24px 0 23px;padding-bottom:11px}
+  .ph1 h1.t{font-size:clamp(24px,7.25vw,49px);line-height:.95;overflow-wrap:anywhere;min-width:0}
+  .ph1 p{max-width:86px;font-size:9px;text-align:right}
+  .page .body{font-size:11px}
+  .grid2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .stack>*+*{margin-top:10px}
+  .box{min-width:0;padding:11px}
+  h2{font-size:10px;gap:6px;margin-bottom:9px}
+  h2::before{width:5px;height:5px}
+  .lead{font-size:clamp(14px,3.9vw,20px);line-height:1.3}
+  .page .body p{overflow-wrap:anywhere}
+  .row{flex-wrap:wrap;gap:5px;padding:7px 0;font-size:10px}
+  .row span{overflow-wrap:anywhere;text-align:right}
+  .tags{gap:4px}
+  .tag{padding:3px 5px;font-size:9px;line-height:1.3;overflow-wrap:anywhere}
+
+  /* Projects: smaller two-column versions of the desktop cards. */
+  .pg{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .cb{padding:9px;gap:7px}
+  .card h3{font-size:clamp(12px,3.3vw,17px);gap:5px}
+  .card p{font-size:10px;line-height:1.45}
+  .ct{font-size:9px;gap:3px}
+  .pg .ct>span:first-child{flex:1 1 100%;min-width:0}
+  .pg .project-status{font-size:8px;padding:3px 5px;gap:4px}
+  .pg .project-status::before{width:5px;height:5px}
+  .pg .links{gap:4px;padding-top:5px}
+  .pg .links .btn{font-size:9px;padding:6px 6px;white-space:normal;word-break:normal;line-height:1.2}
+
+  /* Experience and Education retain their year | description timeline. */
+  .tl{padding-left:14px}
+  .tl::before{left:3px}
+  .ti{display:grid;grid-template-columns:minmax(0,78px) minmax(0,1fr);gap:9px;align-items:start;margin-bottom:18px}
+  .ti::before{left:-14px;width:8px;height:8px}
+  .ti .yr,.xp-list .yr{font-size:clamp(19px,5.7vw,27px);line-height:1.05}
+  .edu-list .ti .yr{font-size:clamp(12px,3.85vw,20px);line-height:1.2}
+  .xp-date{gap:4px}
+  .xp-place{font-size:8px;letter-spacing:0}
+  .xp-card{padding:10px}
+  .xp-card .xp-header{flex-wrap:wrap;gap:4px;margin-bottom:9px}
+  .xp-card .xp-header h3{font-size:clamp(11px,3.3vw,15px)}
+  .xp-card .xp-header h4{font-size:9px;margin-top:3px}
+  .xp-period{font-size:8px;padding:3px 5px;white-space:normal}
+  .xp-card .xp-summary{font-size:10px;margin-bottom:8px}
+  .xp-card ul{font-size:10px;line-height:1.45;gap:5px;margin-left:13px}
+  .ti .box h3{font-size:clamp(11px,3.3vw,16px)}
+  .ti .box h4{font-size:10px}
+  .edu-list .row{font-size:9px;gap:5px}
+
+  /* Hobbies keep the original 6-track asymmetric desktop bento. */
+  .hg{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:minmax(106px,auto);gap:6px}
+  .hg .hc:nth-child(n){grid-column:span 3;grid-row:auto}
+  .hg .hc:nth-child(1){grid-column:span 3;grid-row:span 2}
+  .hc{min-width:0;padding:9px;gap:9px}
+  .hc h3{font-size:clamp(12px,3.3vw,18px)}
+  .hc p{font-size:9px;line-height:1.35}
+  .hc svg{width:27px;height:27px}
+  .hc-index,.hc-hint{font-size:8px}
+  .hc-top{gap:5px}
+  .hc-text{gap:5px}
+
+  /* Gallery retains a thumbnail grid, not one large item per row. */
+  .gg{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .gi .cap{font-size:9px;padding:7px}
+  #lb{padding:8px}
+  #lb .bar{padding:8px;gap:6px;flex-wrap:wrap;font-size:10px}
+  #lb .bar .btn{padding:6px 8px;font-size:9px}
+
+  /* Contact keeps both original desktop panels side by side. */
+  .big{font-size:clamp(12px,3.2vw,17px);gap:4px;padding:12px 0}
+  .big small{font-size:8px}
+  label{font-size:9px}
+  input,textarea{padding:7px;font-size:11px}
+  textarea{min-height:95px}
+  .err{font-size:9px;margin-bottom:5px}
+  .btn{padding:7px 9px;font-size:9px}
+
+  /* Same two theme choices as desktop, scaled to mobile width. */
+  .theme-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .theme-option{min-height:160px;padding:10px}
+  .theme-option .option-label{font-size:clamp(26px,8vw,38px)}
+  .theme-option .option-top,.theme-option .option-bottom{font-size:8px;letter-spacing:0}
+  .theme-option .option-symbol{width:18px;height:18px;font-size:12px}
+  .theme-head{font-size:clamp(32px,9vw,54px)}
+  .intro-name{font-size:clamp(30px,7.8vw,58px)}
+
+  /* Secret ending keeps its image | story composition on mobile too. */
+  .finale-main{grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);gap:9px;padding:12px 9px;align-items:stretch}
+  .finale-character{min-height:190px;max-height:none}
+  .finale-character img{inset:5px;width:calc(100% - 10px);height:calc(100% - 10px)}
+  .finale-character .character-stamp{left:6px;font-size:7px}
+  .finale-story{gap:9px}
+  .finale-top,.finale-bottom{padding:10px;font-size:8px;gap:6px}
+  .finale-top b{font-size:10px}
+  .finale-headline{font-size:clamp(20px,5.7vw,32px)}
+  .finale-status{font-size:8px;letter-spacing:0;gap:5px}
+  .finale-status::before{width:6px;height:6px}
+  .finale-dialogue{font-size:clamp(11px,3vw,15px);padding:7px 0 7px 8px;border-left-width:2px}
+  .finale-quote{padding:9px}
+  .finale-quote-label{font-size:7px;margin-bottom:5px}
+  .finale-quote p{font-size:clamp(10px,2.8vw,14px);min-height:3em}
+  .finale-quote small{font-size:8px;margin-top:5px}
+  .finale-return,.finale-close{padding:8px;font-size:8px}
+}
+@media (max-width:355px){
+  .hub .node{font-size:7.2px;padding:6px 5px;gap:3px}
+  .hub .node svg{width:10px;height:10px}
+  .hubmeta b{font-size:11px}
+  .ti{grid-template-columns:minmax(0,69px) minmax(0,1fr);gap:7px}
+  .page{padding-left:8px;padding-right:8px}
+  .hg{grid-auto-rows:minmax(95px,auto)}
+  .hc p{font-size:8px}
+}
+
+
+/* ===== MOBILE COMPACTNESS FIX: PROJECTS + SECRET ENDING ===== */
+.link-short{display:none}
+.project-more{display:none}
+@media (max-width:760px){
+  /* Keep the requested two-column desktop composition, but don't make each
+     project card excessively tall. Readers can expand any description. */
+  .pg .thumb{aspect-ratio:1.8/1}
+  .pg .cb{padding:8px;gap:6px}
+  .pg .card h3{font-size:clamp(12px,3.3vw,17px);line-height:1.13}
+  .pg .ct{font-size:8px;gap:3px}
+  .pg .project-status{max-width:100%;font-size:7px;line-height:1.2;padding:3px 5px}
+  .pg .card .project-desc{font-size:10px;line-height:1.38;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;overflow-wrap:anywhere}
+  .pg .project-card.desc-expanded .project-desc{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}
+  .pg .project-more{display:inline-flex;align-self:flex-start;align-items:center;gap:5px;padding:3px 0;border:0;background:none;color:var(--ac);font-size:9px;font-weight:750;cursor:pointer;line-height:1.2}
+  .pg .project-more:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+  .pg .tags{gap:3px}
+  .pg .tag{font-size:8px;padding:3px 4px}
+  .pg .links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;align-items:stretch;margin-top:auto}
+  .pg .links .btn{display:flex;min-width:0;gap:3px;justify-content:center;align-items:center;white-space:nowrap;font-size:9px;line-height:1.2;padding:7px 3px;text-align:center}
+  .pg .links .btn:only-child{grid-column:span 2}
+  .pg .link-full{display:none}
+  .pg .link-short{display:inline}
+  .pg .links .arrow{font-size:10px}
+
+  /* Finale: prevent the image from stretching to the full viewport height.
+     Keep the same side-by-side portrait/story structure on mobile. */
+  #finale .finale-main{flex:0 0 auto;align-items:start;align-self:center;margin:auto;gap:10px;padding:12px 10px;width:100%}
+  #finale .finale-character{height:clamp(195px,51svh,310px);min-height:0;max-height:310px;align-self:start;aspect-ratio:auto}
+  #finale .finale-character img{object-position:center center}
+  #finale .finale-story{gap:8px}
+  #finale .finale-status{font-size:7px}
+  #finale .finale-headline{font-size:clamp(20px,6vw,30px)}
+  #finale .finale-dialogue{font-size:clamp(10px,3vw,13px);min-height:0;line-height:1.3}
+  #finale .finale-quote{padding:8px}
+  #finale .finale-quote-label{font-size:7px;line-height:1.3;margin-bottom:4px}
+  #finale .finale-quote p{font-size:clamp(9px,2.9vw,12px);line-height:1.28;min-height:0}
+  #finale .finale-quote small{font-size:7px;line-height:1.35}
+  #finale .finale-return{font-size:8px;padding:8px 7px}
+  #finale .finale-bottom{font-size:7px;line-height:1.35}
+}
+@media (max-width:355px){
+  .pg .cb{padding:7px;gap:5px}
+  .pg .card .project-desc{font-size:9px;-webkit-line-clamp:3;line-clamp:3}
+  .pg .project-status{font-size:6.8px}
+  #finale .finale-main{gap:8px;padding:9px 7px}
+  #finale .finale-character{height:clamp(190px,47svh,275px)}
+}
+
 </style>
 </head>
 <body class="preloading">
@@ -632,10 +825,13 @@ function media(item,i,fit='cover'){
   }
   return ph(i,item&&item.t?item.t:'Media');
 }
-const lk=(url,label)=>url?'<a class="btn" href="'+e(url)+'" target="_blank" rel="noopener">'+label+' <span class="arrow">↗</span></a>':'<span class="btn off" title="URL belum diisi">'+label+' (placeholder)</span>';
+const lk=(url,label)=>{
+  const short={'Repository':'Repo','Live Website':'Web','Download Aplikasi':'Unduh','Demo YouTube':'Video','Demo Video':'Video','Live Demo':'Demo'}[label]||label;
+  return url?'<a class="btn" href="'+e(url)+'" target="_blank" rel="noopener" aria-label="'+e(label)+'"><span class="link-full">'+e(label)+'</span><span class="link-short" aria-hidden="true">'+e(short)+'</span><span class="arrow" aria-hidden="true">↗</span></a>':'<span class="btn off" title="URL belum diisi">'+e(label)+' (placeholder)</span>';
+};
 const VIEWS={
   about:()=>`<div class="grid2"><div class="stack"><p class="lead">${e(D.lead)}</p><p style="color:var(--mut);max-width:60ch;white-space:pre-line">${e(D.bio)}</p><div class="box rv"><h2 style="--ac:var(--blue)">Interests</h2><div class="tags">${D.interests.map(i=>'<span class="tag'+(['Web Development','Software Development'].includes(i)?' tag-primary':'')+'">'+e(i)+'</span>').join('')}</div></div></div><div class="stack"><div class="box rv"><h2 style="--ac:var(--red)">Skills</h2>${D.skills.map(s=>'<div class="row"><b>'+e(s[0])+'</b><span>'+e(s[1])+'</span></div>').join('')}</div><div class="box rv"><h2 style="--ac:var(--grn)">Tech stack</h2><div class="tags">${D.stack.map(i=>'<span class="tag'+(['PHP','Laravel'].includes(i)?' tag-primary':'')+'">'+e(i)+'</span>').join('')}</div></div></div></div>`,
-  projects:()=>`<div class="pg">${D.projects.map((p,i)=>`<article class="card rv project-card" style="--ac:var(${ACC[i%4]})"><div class="thumb">${media(p,i,'cover')}</div><div class="cb"><div class="ct"><span>No. ${String(i+1).padStart(2,'0')} · ${e(p.cat)}</span>${p.status?`<span class="project-status status-${e(p.state||'progress')}">${e(p.status)}</span>`:''}</div><h3>${e(p.title)}</h3><p>${e(p.desc)}</p><div class="tags">${p.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div><div class="links">${p.github?lk(p.github,'Repository'):''}${p.demo?lk(p.demo,p.demoLabel||'Live Website'):''}</div></div></article>`).join('')}</div>`,
+  projects:()=>`<div class="pg" id="projectsGrid">${D.projects.map((p,i)=>`<article class="card rv project-card" style="--ac:var(${ACC[i%4]})"><div class="thumb">${media(p,i,'cover')}</div><div class="cb"><div class="ct"><span>No. ${String(i+1).padStart(2,'0')} · ${e(p.cat)}</span>${p.status?`<span class="project-status status-${e(p.state||'progress')}">${e(p.status)}</span>`:''}</div><h3>${e(p.title)}</h3><p class="project-desc" id="project-desc-${i}">${e(p.desc)}</p><button class="project-more" type="button" aria-expanded="false" aria-controls="project-desc-${i}">Selengkapnya <span aria-hidden="true">+</span></button><div class="tags">${p.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div><div class="links">${p.github?lk(p.github,'Repository'):''}${p.demo?lk(p.demo,p.demoLabel||'Live Website'):''}</div></div></article>`).join('')}</div>`,
   experience:()=>`<div class="tl xp-list">${D.experience.map((x,i)=>`<article class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="xp-date"><div class="yr">${e(x.year)}</div>${x.place?`<span class="xp-place">${e(x.place)}</span>`:''}</div><div class="box xp-card"><div class="xp-header"><div><h3>${e(x.pos)}</h3><h4>${e(x.org)}</h4></div><span class="xp-period">${e(x.place||'')} · ${e(x.year)}</span></div>${x.desc?`<p class="xp-summary">${e(x.desc)}</p>`:''}<ul>${x.tasks.map(t=>'<li>'+e(t)+'</li>').join('')}</ul>${x.tech&&x.tech.length?`<div class="tags">${x.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div>`:''}</div></article>`).join('')}</div>`,
   education:()=>`<div class="tl edu-list">${D.education.map((x,i)=>`<article class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="yr">${e(x.year)}</div><div class="box"><h3>${e(x.inst)}</h3>${x.major?`<h4>${e(x.major)}</h4>`:''}${x.studyField?`<div class="row"><b>Jurusan</b><span>${e(x.studyField)}</span></div>`:''}<div class="row"><b>${e(x.activityLabel||'Kegiatan')}</b><span>${e(x.activities)}</span></div><div class="row"><b>${e(x.achievementLabel||'Prestasi')}</b><span>${e(x.achievements)}</span></div>${x.certs.length?'<div class="tags" style="margin-top:12px">'+x.certs.map(t=>'<span class="tag">'+e(t)+'</span>').join('')+'</div>':''}</div></article>`).join('')}</div>`,
   hobbies:()=>`<div class="hg" id="hobbiesGrid">${D.hobbies.map((h,i)=>`<button type="button" class="hc rv" data-j="${i}" style="--ac:var(${ACC[i%4]})" aria-pressed="false" aria-label="Buka segel ${e(h.t)}"><div class="hc-image" aria-hidden="true"><img src="${e(h.img)}" alt="" loading="lazy" decoding="async"></div><div class="hc-top"><span class="hc-index">${String(i+1).padStart(2,'0')} / 05</span><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48"/><rect x="24" y="24" width="16" height="16"/></svg></div><div class="hc-text"><div><h3>${e(h.t)}</h3><p>${e(h.d)}</p></div><span class="hc-hint">CLICK TO UNLOCK ↗</span></div></button>`).join('')}</div>`,
@@ -680,7 +876,7 @@ function buildViews(){
   app.appendChild(home);views.home=home;
   $('#replayFinale').addEventListener('click',startMasterFinale);
   MENU.forEach((m,i)=>{const s=document.createElement('section');s.className='view';s.dataset.view=m.id;s.hidden=true;s.style.setProperty('--section-ac','var('+ACC[i%4]+')');s.innerHTML=`<div class="page"><a class="back" href="#/"><span>←</span> BACK TO HOME</a><div class="ph1"><h1 class="t" data-title="${e(TITLES[m.id])}" tabindex="-1">${e(TITLES[m.id])}</h1><p>${SUB[m.id]}</p></div><div class="body">${VIEWS[m.id]()}</div></div>`;if(visitedSections.has(m.id))s.classList.add('title-colored');app.appendChild(s);views[m.id]=s});
-  initGallery();initHobbies();initContact();
+  initGallery();initHobbies();initProjectExpand();initContact();
   applyVisitedCircuits(); // Restore seals and the replay control on mobile too.
 }
 /* ===== CONNECTION LINES ===== */
@@ -781,10 +977,10 @@ function initConnectionLines(){
   applyVisitedCircuits();
 }
 function homeIntro(){const hub=$('#hub'),nodes=$$('.node',hub),ease='cubic-bezier(.2,.7,.2,1)';initConnectionLines();if(reduce)return;
-  $('#char').animate([{opacity:0,transform:innerWidth>760?'translate(-50%,-48%)':'translateY(10px)'},{opacity:1,transform:innerWidth>760?'translate(-50%,-50%)':'none'}],{duration:dur(600),easing:ease});
+  $('#char').animate([{opacity:0,transform:'translate(-50%,-48%)'},{opacity:1,transform:'translate(-50%,-50%)'}],{duration:dur(600),easing:ease});
   $$('#lines .ln').forEach((p,i)=>p.animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:dur(700),delay:dur(120+i*60),easing:ease,fill:'backwards'}));
   $$('#lines .dot,#lines .ring').forEach((p,i)=>p.animate([{opacity:0},{opacity:1}],{duration:dur(300),delay:dur(350+i*30),fill:'backwards'}));
-  nodes.forEach((n,i)=>{const base=innerWidth>760?'translate(-50%,-50%) ':'';n.animate([{opacity:0,transform:base+'translateY(10px)'},{opacity:1,transform:base+'translateY(0px)'}],{duration:dur(400),delay:dur(320+i*65),easing:ease,fill:'backwards'})});
+  nodes.forEach((n,i)=>{const base='translate(-50%,-50%) ';n.animate([{opacity:0,transform:base+'translateY(10px)'},{opacity:1,transform:base+'translateY(0px)'}],{duration:dur(400),delay:dur(320+i*65),easing:ease,fill:'backwards'})});
 }
 /* ===== 07 / 07 MASTER AIMAN FINALE ===== */
 const MASTER_QUOTE='Diam tak akan menyelesaikan masalah, tapi diam juga tak akan menimbulkan masalah.';
@@ -1164,6 +1360,20 @@ async function runRoute(){
 }
 function revealScan(root){const els=$$('.rv:not(.in)',root);if(!('IntersectionObserver' in window)||reduce){els.forEach(x=>x.classList.add('in'));return}const io=new IntersectionObserver(en=>en.forEach(o=>{if(o.isIntersecting){setTimeout(()=>o.target.classList.add('in'),(o.target.dataset.d|0));io.unobserve(o.target)}}),{threshold:.08});els.forEach((x,i)=>{x.dataset.d=(i%4)*70;io.observe(x)})}
 function initNavigation(){addEventListener('hashchange',()=>{want=routeOf();if(!busy)runRoute()});let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(cur==='home')initConnectionLines()},100)});want=routeOf();runRoute()}
+/* ===== MOBILE PROJECT DETAILS ===== */
+function initProjectExpand(){
+  const grid=$('#projectsGrid');
+  if(!grid)return;
+  grid.addEventListener('click',event=>{
+    const button=event.target.closest('.project-more');
+    if(!button || !grid.contains(button))return;
+    const card=button.closest('.project-card');
+    if(!card)return;
+    const isExpanded=card.classList.toggle('desc-expanded');
+    button.setAttribute('aria-expanded',String(isExpanded));
+    button.innerHTML=isExpanded?'Lebih ringkas <span aria-hidden="true">−</span>':'Selengkapnya <span aria-hidden="true">+</span>';
+  });
+}
 /* ===== GALLERY & LIGHTBOX ===== */
 let gl=[],gi=0,lastFocus=null,lbItems=[];
 function initGallery(){
