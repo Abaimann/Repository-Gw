@@ -13,7 +13,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border-radius:0}
 :root{--bg:#fff;--fg:#111;--bg2:#f6f6f6;--mut:#666;--bd:#d9d9d9;--blue:#4285F4;--red:#EA4335;--yel:#FBBC05;--grn:#34A853;--ease:cubic-bezier(.2,.7,.2,1);color-scheme:light}
 :root[data-theme=dark]{--bg:#111;--fg:#fff;--bg2:#1b1b1b;--mut:#a0a0a0;--bd:#383838;color-scheme:dark}
-html{scroll-behavior:auto}
+html{scroll-behavior:auto;scrollbar-gutter:stable}
 body{background:var(--bg);color:var(--fg);font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;line-height:1.55;overflow-x:hidden;min-height:100vh}
 body.preloading,body.portal-moving{overflow:hidden}body.tt *{transition:background-color .25s,color .25s,border-color .25s,fill .25s,stroke .25s!important}
 a{color:inherit;text-decoration:none}button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
@@ -124,10 +124,12 @@ body.master-unlocked .view.title-colored .ph1::after{animation-duration:1.35s}
 h2{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:16px;display:flex;align-items:center;gap:10px}h2::before{content:"";width:8px;height:8px;background:var(--ac,var(--fg))}
 .box{border:1px solid var(--bd);background:var(--bg);padding:24px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .lead{font-size:clamp(22px,2.6vw,34px);line-height:1.2;letter-spacing:-.02em;font-weight:600}.tags{display:flex;flex-wrap:wrap;gap:8px}.tag{border:1px solid var(--bd);padding:4px 10px;font-size:12px;color:var(--mut)}
+.tag.tag-primary{color:#fff;background:#171717;border-color:#fff;font-weight:800;letter-spacing:.015em}
+:root[data-theme=light] .tag.tag-primary{border-color:#171717}
 .row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid var(--bd);font-size:14px}.row:first-of-type{border-top:0}.row b{font-weight:700}.row span{color:var(--mut)}
 .stack>*+*{margin-top:24px}.arrow{display:inline-block;transition:transform .2s var(--ease)}.rv{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}.rv.in{opacity:1;transform:none}
 /* ===== HOME HUB ===== */
-.hub{position:relative;height:100svh;min-height:640px;max-width:1280px;margin:0 auto}
+.hub{position:relative;height:100svh;min-height:min(640px,100svh);max-width:1280px;margin:0 auto;overflow:clip}
 .hub svg.lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .ln{fill:none;stroke:var(--mut);stroke-width:1;transition:stroke .2s}.ln.on{stroke:var(--ac);stroke-width:1.6}
 .dot{fill:var(--bg);stroke:var(--mut);stroke-width:1;transition:stroke .2s,fill .2s}.dot.on{stroke:var(--ac);fill:var(--ac)}
@@ -197,7 +199,7 @@ h2{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:16px;displa
 @keyframes tech-status-blink{0%,58%,100%{opacity:.9}60%,67%{opacity:.15}69%,74%{opacity:.9}}
 /* Narrow scan washes over only the grid underneath the actual UI. */
 .hub::after{content:"";position:absolute;left:0;right:0;top:0;height:90px;z-index:0;pointer-events:none;opacity:.7;background:linear-gradient(to bottom,transparent,rgba(66,133,244,.055),transparent);animation:tech-grid-scan 14s linear infinite}
-@keyframes tech-grid-scan{from{transform:translateY(-110px)}to{transform:translateY(calc(100svh + 120px))}}
+@keyframes tech-grid-scan{from{transform:translateY(-110px)}to{transform:translateY(calc(100svh - 90px))}}
 /* No page-wide repositioning: the detail pages only receive a faint moving scan. */
 .page::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:0;pointer-events:none;z-index:-1;animation:tech-page-scan 13s linear infinite}
 @keyframes tech-page-scan{0%{transform:translateY(0);opacity:0}6%{opacity:.12}70%{opacity:.12}78%,100%{transform:translateY(50vh);opacity:0}}
@@ -248,23 +250,61 @@ h2{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:16px;displa
 .card h3{font-size:22px;letter-spacing:-.02em;line-height:1.1;display:flex;justify-content:space-between;gap:12px;background:linear-gradient(var(--ac,var(--fg)),var(--ac,var(--fg))) 0 100%/0 2px no-repeat;transition:background-size .3s var(--ease);align-self:flex-start}.card:hover h3{background-size:100% 2px}.card p{font-size:14px;color:var(--mut)}
 .links{display:flex;gap:8px;margin-top:auto;padding-top:8px}.btn{border:1px solid var(--fg);padding:8px 14px;font-size:12px;font-weight:700;letter-spacing:.04em;background:var(--bg);cursor:pointer;display:inline-flex;gap:8px;transition:background .2s,color .2s}
 a.btn:hover,button.btn:hover{background:var(--fg);color:var(--bg)}a.btn:hover .arrow{transform:translate(3px,-3px)}.btn.off{border-style:dashed;border-color:var(--bd);color:var(--mut);cursor:default}
+
+/* ===== PROJECTS / REAL SCREENSHOTS + DELIVERY STATUS ===== */
+.pg .thumb{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:var(--bg2)}
+.pg .thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:center top;transition:transform .55s var(--ease)}
+.pg .card:hover .thumb img{transform:scale(1.025)}
+.pg .ct{align-items:center;flex-wrap:wrap;gap:8px;line-height:1.4}
+.pg .ct > span:first-child{flex:1 1 160px}
+.pg .project-status{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd);padding:5px 8px;color:var(--fg);background:var(--bg);font-size:10px;font-weight:700;letter-spacing:.035em;line-height:1.25}
+.pg .project-status::before{content:"";width:6px;height:6px;background:var(--ac);flex:none}
+.pg .project-status.status-done::before{background:var(--grn)}
+.pg .project-status.status-priority{border-color:var(--ac)}
+.pg .card h3{line-height:1.22;overflow-wrap:anywhere}
+.pg .links{flex-wrap:wrap;gap:9px}
+.pg .links .btn{white-space:nowrap;align-items:center}
+@media(max-width:480px){.pg{gap:16px}.pg .cb{padding:16px}.pg .card h3{font-size:20px}.pg .links .btn{font-size:11px;padding:9px 12px}}
 /* ===== TIMELINE ===== */
 .tl{position:relative;padding-left:32px}.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:0;width:1px;background:var(--bd)}
 .ti{position:relative;display:grid;grid-template-columns:160px 1fr;gap:24px;margin-bottom:32px}.ti::before{content:"";position:absolute;left:-32px;top:8px;width:11px;height:11px;background:var(--bg);border:1px solid var(--fg);transition:background .2s}.ti:hover::before{background:var(--ac)}
 .yr{font-size:clamp(28px,3.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1}.ti .box h3{font-size:20px;letter-spacing:-.01em;line-height:1.2}.ti .box h4{font-size:13px;color:var(--mut);font-weight:400;margin:2px 0 12px}.ti ul{margin:12px 0 14px 18px;font-size:14px;color:var(--mut)}
-/* ===== HOBBIES ===== */
-.hg{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}.hc{border:1px solid var(--bd);padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);transition:background .25s,color .25s,border-color .25s;position:relative;overflow:hidden}
-.hc:nth-child(1){grid-column:span 3;grid-row:span 2}.hc:nth-child(2){grid-column:span 3}.hc:nth-child(3){grid-column:span 2}.hc:nth-child(4){grid-column:span 1}.hc:nth-child(5){grid-column:span 2}.hc:nth-child(6){grid-column:span 4}
-.hc:hover{background:var(--fg);color:var(--bg);border-color:var(--ac)}.hc:hover p{color:var(--bg);opacity:.75}.hc h3{font-size:clamp(22px,2.4vw,34px);letter-spacing:-.03em;line-height:1}.hc p{font-size:14px;color:var(--mut)}.hc svg{width:64px;height:64px;stroke:var(--ac);fill:none;stroke-width:1.5;transition:transform .4s var(--ease)}.hc:hover svg{transform:rotate(90deg)}
+/* ===== HOBBIES — INLINE CARD UNLOCK (NO MODAL) ===== */
+.hg{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}
+.hc{border:1px solid var(--bd);padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:#111;color:#fff;transition:border-color .25s,box-shadow .25s;position:relative;overflow:hidden;cursor:pointer;text-align:left;isolation:isolate;border-radius:0}
+.hc:nth-child(1){grid-column:span 3;grid-row:span 2}
+.hc:nth-child(2),.hc:nth-child(3),.hc:nth-child(4),.hc:nth-child(5){grid-column:span 3}
+.hc:hover:not(.is-unlocked),.hc:focus-visible{border-color:var(--ac)}
+.hc:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.hc h3{font-size:clamp(22px,2.4vw,34px);letter-spacing:-.03em;line-height:1.05;color:#fff}
+.hc p{font-size:14px;color:#dfdfdf;line-height:1.55}
+.hc svg{width:64px;height:64px;stroke:var(--ac);fill:none;stroke-width:1.5;transition:transform .4s var(--ease)}
+.hc:hover:not(.is-unlocked) svg{transform:rotate(90deg)}
+.hc-top,.hc-text{position:relative;z-index:2}
+.hc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.hc-index{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--ac)}
+.hc-hint{font-size:11px;font-weight:700;letter-spacing:.12em;color:#c9c9c9;transition:color .25s}
+.hc-text{display:grid;gap:10px}
+.hc-image{position:absolute;inset:0;z-index:0;clip-path:inset(0 100% 0 0);pointer-events:none;transition:clip-path 1000ms cubic-bezier(.2,.75,.2,1)}
+.hc-image img{width:100%;height:100%;display:block;object-fit:cover;filter:brightness(.99) contrast(1.02);transform:scale(1.055);transition:transform 1300ms cubic-bezier(.2,.75,.2,1)}
+.hc-image::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.02) 65%,rgba(0,0,0,.025) 100%)}
+.hc.is-unlocked{border-color:var(--ac);cursor:default;box-shadow:inset 0 0 0 1px var(--ac)}
+.hc.is-unlocked .hc-image{clip-path:inset(0 0 0 0)}
+.hc.is-unlocked .hc-image img{transform:scale(1)}
+.hc.is-unlocked .hc-hint{color:#fff}
+.hc.is-unlocked h3,.hc.is-unlocked p,.hc.is-unlocked .hc-hint{text-shadow:0 1px 7px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.65)}
+.hc.is-unlocked::after{content:"";position:absolute;z-index:3;top:0;bottom:0;width:3px;left:0;transform:translateX(-6px);opacity:0;background:var(--ac);box-shadow:0 0 12px var(--ac);pointer-events:none}
+.hc.is-unlocking::after{animation:hobby-unlock-scan 1000ms cubic-bezier(.2,.75,.2,1) both}
+@keyframes hobby-unlock-scan{0%{opacity:0;left:0}12%{opacity:1}90%{opacity:1}100%{opacity:0;left:100%}}
+@media(prefers-reduced-motion:reduce){.hc-image,.hc-image img{transition:none!important}.hc.is-unlocking::after{animation:none!important}}
 /* ===== GALLERY ===== */
-.flt{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}.flt button{border:1px solid var(--bd);background:var(--bg);padding:8px 14px;font-size:12px;font-weight:700;letter-spacing:.04em;transition:background .2s,color .2s}.flt button:hover{border-color:var(--fg)}.flt button[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}.gi{border:1px solid var(--bd);background:none;padding:0;cursor:zoom-in;text-align:left;overflow:hidden;transition:border-color .2s;display:block}.gi:hover{border-color:var(--ac)}.gi .thumb{border:0;border-bottom:1px solid var(--bd)}.gi:hover .thumb svg{transform:scale(1.06)}.gi div.cap{padding:10px 12px;font-size:12px;display:flex;justify-content:space-between;color:var(--mut)}
-#lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:16px}#lb .in{background:var(--bg);border:1px solid var(--fg);width:min(100%,860px);max-height:100%;overflow:auto}#lb .thumb{aspect-ratio:4/3;max-height:70vh;border-bottom:1px solid var(--bd)}#lb .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;font-size:13px}#lb .bar div{display:flex;gap:8px;flex-wrap:wrap}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}.gi{border:1px solid var(--bd);background:none;padding:0;cursor:zoom-in;text-align:left;overflow:hidden;transition:border-color .2s,transform .35s var(--ease),opacity .45s var(--ease);display:block}.gi:hover{border-color:var(--ac);transform:translateY(-3px)}.gi .thumb{aspect-ratio:4/5;border:0;border-bottom:1px solid var(--bd);background:var(--bg2);overflow:hidden;position:relative}.gi .thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transform:scale(1.06);transition:opacity .65s var(--ease),transform .75s var(--ease)}.gi.in .thumb img{opacity:1;transform:scale(1)}.gi div.cap{padding:10px 12px;font-size:12px;display:flex;justify-content:space-between;color:var(--mut)}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:16px}#lb .in{background:var(--bg);border:1px solid var(--fg);width:min(100%,860px);max-height:100%;overflow:auto}#lb .thumb{aspect-ratio:4/3;max-height:70vh;border-bottom:1px solid var(--bd);background:var(--bg2);display:flex;align-items:center;justify-content:center}#lb .thumb img{width:100%;height:100%;max-height:70vh;object-fit:contain;display:block}#lb .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;font-size:13px}#lb .bar div{display:flex;gap:8px;flex-wrap:wrap}
 /* ===== CONTACT ===== */
 .big{font-size:clamp(20px,2.4vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--bd);background:linear-gradient(var(--ac),var(--ac)) 0 100%/0 2px no-repeat;transition:background-size .3s var(--ease)}a.big:hover{background-size:100% 2px}a.big:hover .arrow{transform:translate(6px,-6px)}.big.off{color:var(--mut);cursor:default}.big small{font-size:12px;font-weight:400}
 label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;margin-bottom:6px}input,textarea{width:100%;border:1px solid var(--bd);background:var(--bg);padding:12px;margin-bottom:4px;transition:border-color .2s}input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:inset 0 -2px 0 var(--blue)}textarea{min-height:140px;resize:vertical}.err{color:var(--red);font-size:12px;min-height:18px;margin-bottom:10px}#st{margin-top:16px;font-size:13px;color:var(--mut)}
 @media(max-width:1000px){.node{padding:10px 12px;font-size:12px;gap:8px}.node .n{display:none}}
-@media(max-width:760px){.hub{height:auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:76px 16px 24px}.hub svg.lines{display:none}.hubmeta{position:static;grid-column:1/-1;margin:12px 0 0;text-align:left}.char{position:static;transform:none;grid-column:1/-1;height:auto;width:min(70vw,300px);margin:0 auto 16px;aspect-ratio:341/428}.char img{width:100%;height:auto}.node{position:static!important;transform:none;white-space:normal;padding:16px 12px;min-height:56px}.node .arrow{display:none}.grid2,.ti{grid-template-columns:1fr}.ph1{grid-template-columns:1fr}.ph1 p{text-align:left}.hg{grid-template-columns:1fr 1fr}.hc:nth-child(n){grid-column:span 1;grid-row:auto}.hc:nth-child(1),.hc:nth-child(6){grid-column:span 2}.intro-name{font-size:clamp(38px,10vw,78px)}.intro-role{letter-spacing:.16em}.intro-foot-row{align-items:center}}
+@media(max-width:760px){.hub{height:auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:76px 16px 24px}.hub svg.lines{display:none}.hubmeta{position:static;grid-column:1/-1;margin:12px 0 0;text-align:left}.char{position:static;transform:none;grid-column:1/-1;height:auto;width:min(70vw,300px);margin:0 auto 16px;aspect-ratio:341/428}.char img{width:100%;height:auto}.node{position:static!important;transform:none;white-space:normal;padding:16px 12px;min-height:56px}.node .arrow{display:none}.grid2,.ti{grid-template-columns:1fr}.ph1{grid-template-columns:1fr}.ph1 p{text-align:left}.hg{grid-template-columns:1fr 1fr}.hc:nth-child(n){grid-column:span 1;grid-row:auto}.hc:nth-child(1){grid-column:span 2}.intro-name{font-size:clamp(38px,10vw,78px)}.intro-role{letter-spacing:.16em}.intro-foot-row{align-items:center}}
 @media(max-width:400px){.node{font-size:10px;gap:6px;padding:12px 7px}.node svg{width:18px;height:18px}.intro-name{font-size:clamp(33px,9.6vw,45px)}.intro-skip{font-size:10px}}
 /* ===== SIGNAL LOOP + PERMANENT VISITED CIRCUITS ===== */
 .node.ambient-target{overflow:hidden}
@@ -319,7 +359,7 @@ label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;margin-b
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.intro-name{transform:none}.intro-role,.intro-idx{opacity:1;transform:none}.intro-stripes i{transform:none}}
 
 /* ===== MASTER AIMAN / FINAL SEAL — SHARP CINEMATIC REWARD ===== */
-/* Completing all seven seals permanently unlocks high-voltage motion. The
+/* Completing all seven seals unlocks high-voltage motion for this page visit. The
    temporary finale-charge state uses the same rules during the explosion. */
 body:is(.finale-charge,.master-unlocked) #lines g.visited-wire .charge,
 body:is(.finale-charge,.master-unlocked) #lines .ring-charge.visited-arc,
@@ -387,9 +427,12 @@ body.finale-open{overflow:hidden}
 .finale-character::before,.finale-character::after{content:'';position:absolute;width:25px;height:25px;border:2px solid var(--fg);opacity:.45}
 .finale-character::before{left:16px;top:16px;border-right:0;border-bottom:0}
 .finale-character::after{right:16px;bottom:16px;border-left:0;border-top:0}
-.finale-character img{display:block;width:auto;height:auto;max-height:min(64vh,490px);max-width:90%;object-fit:contain;filter:drop-shadow(0 12px 13px rgba(0,0,0,.12));transform:translateY(35px) scale(.95);opacity:0;transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .65s}
-#finale.visible .finale-character img{transform:translateY(0) scale(1);opacity:1}
-.finale-character .character-stamp{position:absolute;left:20px;bottom:14px;color:var(--mut);font:600 10px/1.4 'Courier New',monospace;letter-spacing:.1em}
+/* Two image layers keep the silhouette stationary during the pose dissolve. */
+.finale-character img{position:absolute;inset:16px 20px;display:block;width:calc(100% - 40px);height:calc(100% - 32px);max-width:none;max-height:none;object-fit:contain;filter:drop-shadow(0 12px 13px rgba(0,0,0,.12));opacity:0;transform:translateY(18px) scale(.975);transition:opacity 850ms cubic-bezier(.22,.7,.2,1),transform 900ms cubic-bezier(.16,1,.3,1);will-change:opacity,transform;pointer-events:none}
+#finale.visible .finale-character img.pose-base:not(.pose-receding){opacity:1;transform:translateY(0) scale(1)}
+#finale.visible .finale-character img.pose-next.pose-visible{opacity:1;transform:translateY(0) scale(1)}
+#finale.visible .finale-character img.pose-base.pose-receding{opacity:0;transform:translateY(-5px) scale(1.025)}
+.finale-character .character-stamp{position:absolute;z-index:3;left:20px;bottom:14px;color:var(--mut);font:600 10px/1.4 'Courier New',monospace;letter-spacing:.1em}
 .finale-story{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:clamp(15px,2vw,25px)}
 .finale-status{display:flex;align-items:center;gap:10px;font:700 11px/1.5 'Courier New',monospace;color:var(--grn);letter-spacing:.1em}
 .finale-status::before{content:'';display:block;width:9px;height:9px;background:var(--grn)}
@@ -405,8 +448,15 @@ body.finale-open{overflow:hidden}
 .finale-caret::after{content:'▌';color:var(--blue);display:inline-block;vertical-align:baseline;animation:final-caret .8s steps(1,end) infinite}
 @keyframes final-caret{50%{opacity:0}}
 .replay-reward{display:block;margin-top:11px;padding:8px 11px;border-color:var(--bd);background:var(--bg);font:700 10px/1.3 'Courier New',monospace;letter-spacing:.03em}
-@media(max-width:760px){.finale-top,.finale-bottom{padding:15px 18px;font-size:10px}.finale-main{grid-template-columns:1fr;gap:22px;padding:22px 18px}.finale-character{min-height:235px;max-height:36vh}.finale-character img{max-height:30vh;margin-bottom:16px}.finale-character .character-stamp{bottom:9px;font-size:9px}.finale-headline{font-size:clamp(34px,9.5vw,60px)}.finale-story{gap:14px}.finale-dialogue{min-height:2.6em}.finale-quote p{min-height:3em}.finale-quote{padding:18px}.finale-bottom{flex-wrap:wrap}}
-@media(prefers-reduced-motion:reduce){body.finale-charge *,#finalBurst *,#finale *,#finale .finale-character img{animation:none!important;transition:none!important}.finale-caret::after{animation:none}}
+@media(max-width:760px){.finale-top,.finale-bottom{padding:15px 18px;font-size:10px}.finale-main{grid-template-columns:1fr;gap:22px;padding:22px 18px}.finale-character{min-height:235px;max-height:36vh}.finale-character img{inset:8px 14px;width:calc(100% - 28px);height:calc(100% - 16px);max-height:none;margin:0}.finale-character .character-stamp{bottom:9px;font-size:9px}.finale-headline{font-size:clamp(34px,9.5vw,60px)}.finale-story{gap:14px}.finale-dialogue{min-height:2.6em}.finale-quote p{min-height:3em}.finale-quote{padding:18px}.finale-bottom{flex-wrap:wrap}}
+/* Exit from the secret reward reveals Home and gently powers up the unlocked hub. */
+#finale.returning{opacity:0;transform:translateY(-12px);pointer-events:none;transition:opacity 760ms cubic-bezier(.3,0,.25,1),transform 760ms cubic-bezier(.3,0,.25,1)}
+#finale.returning .finale-main{opacity:0;transform:translateY(-22px) scale(.985);transition:opacity 490ms ease,transform 760ms cubic-bezier(.25,.8,.2,1)}
+#hub.reward-reenter{animation:reward-home-reenter 950ms cubic-bezier(.16,1,.3,1) both}
+#hub.reward-reenter .node.visited{animation:reward-node-illumination 950ms ease-out both}
+@keyframes reward-home-reenter{0%{opacity:.35;transform:scale(.976);filter:blur(5px)}55%{opacity:.9;filter:blur(0)}100%{opacity:1;transform:scale(1);filter:none}}
+@keyframes reward-node-illumination{0%,35%{box-shadow:inset 0 0 0 1px var(--ac),0 0 0 0 transparent}62%{box-shadow:inset 0 0 0 1px var(--ac),0 0 17px 1px var(--ac)}100%{box-shadow:inset 0 0 0 1px var(--ac),0 0 0 0 transparent}}
+@media(prefers-reduced-motion:reduce){body.finale-charge *,#finalBurst *,#finale *,#finale .finale-character img{animation:none!important;transition:none!important}.finale-caret::after{animation:none}#hub.reward-reenter,#hub.reward-reenter .node{animation:none!important}}
 @media(prefers-reduced-motion:reduce){#finale .finale-main{opacity:1;transform:none}}
 
 /* ===== DEVELOPER RESET — HIDDEN SHORTCUT, NO VISIBLE NAVBAR ===== */
@@ -429,6 +479,37 @@ body.finale-open{overflow:hidden}
 .dev-reset-actions .danger:hover,.dev-reset-actions .danger:focus-visible{background:var(--red);border-color:var(--red);color:#fff}
 .dev-reset-foot{border-top:1px solid var(--bd);padding:13px 22px;font:600 10px/1.4 'Courier New',monospace;color:var(--mut);letter-spacing:.05em}
 @media(max-width:420px){.dev-reset-actions{grid-template-columns:1fr}.dev-reset-body{padding:22px 18px}.dev-reset-head,.dev-reset-foot{padding-left:18px;padding-right:18px}}
+
+/* Scroll stability: keep moving blueprint paint inside the Home canvas.
+   Content pages remain scrollable normally. The Home hub does not create its own scroll area. */
+@media (min-width:761px) and (max-height:640px){
+  .hub{min-height:0;height:100svh}
+  .hub .char{height:40%}
+  .hub .node{padding:9px 12px;gap:9px;font-size:12px}
+  .hubmeta{bottom:12px}
+}
+@supports not (overflow:clip){
+  .hub{overflow:hidden}
+}
+
+/* ===== EXPERIENCE / EDUCATION — NON-OVERLAPPING RESPONSIVE TIMELINE ===== */
+.ti{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:26px;align-items:start}
+.ti .yr{max-width:100%;font-size:clamp(27px,3vw,42px);line-height:1.04;overflow-wrap:anywhere;word-break:normal}
+.ti .box{min-width:0}
+.xp-date{min-width:0;display:flex;flex-direction:column;gap:9px}
+.xp-list .yr{font-size:clamp(40px,4.8vw,60px);font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+.xp-place{font:700 11px/1.4 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.xp-card{position:relative;border-left:2px solid var(--ac)}
+.xp-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.xp-card .xp-header h3{font-size:clamp(18px,2vw,25px);line-height:1.25;letter-spacing:-.02em;overflow-wrap:anywhere}
+.xp-card .xp-header h4{font-size:14px;margin:7px 0 0;color:var(--mut)}
+.xp-period{border:1px solid var(--bd);padding:6px 9px;flex-shrink:0;color:var(--mut);font-size:11px;line-height:1.4;white-space:nowrap}
+.xp-card ul{margin:0 0 0 19px;padding:0;display:grid;gap:10px;color:var(--mut);font-size:14px;line-height:1.65}
+.xp-card li::marker{color:var(--ac)}
+.xp-card .xp-summary{font-size:14px;margin:0 0 14px;color:var(--mut)}
+.edu-list .ti .yr{font-size:clamp(25px,2.8vw,38px)}
+@media(max-width:760px){.ti{grid-template-columns:1fr;gap:14px}.xp-date{gap:4px}.xp-list .yr{font-size:40px}.xp-card .xp-header{flex-wrap:wrap;gap:10px}.xp-period{white-space:normal}}
+@media(max-width:400px){.xp-card{padding:17px}.xp-card ul{font-size:13px}}
 </style>
 </head>
 <body class="preloading">
@@ -468,7 +549,7 @@ body.finale-open{overflow:hidden}
 <section id="finale" role="dialog" aria-modal="true" aria-label="Hadiah rahasia dari Master Aiman" aria-hidden="true" hidden>
   <div class="finale-top"><span><b>MASTER AIMAN</b> / SECRET REWARD</span><span class="finale-dots" aria-hidden="true"><i style="--stripe:var(--blue)"></i><i style="--stripe:var(--red)"></i><i style="--stripe:var(--yel)"></i><i style="--stripe:var(--grn)"></i></span><button class="finale-close" type="button" id="finaleClose" aria-label="Tutup hadiah">TUTUP ×</button></div>
   <div class="finale-main">
-    <div class="finale-character"><img id="finaleCharacter" alt="Karakter ilustrasi Abdurrahman, Master Aiman" draggable="false"><span class="character-stamp">SUBJECT / MASTER AIMAN — RELEASED</span></div>
+    <div class="finale-character"><img id="finaleCharacter" class="pose-base" alt="Karakter ilustrasi Abdurrahman, Master Aiman" draggable="false"><img id="finaleCharacterNext" class="pose-next" alt="" aria-hidden="true" draggable="false"><span class="character-stamp">SUBJECT / MASTER AIMAN — RELEASED</span></div>
     <div class="finale-story">
       <div class="finale-status">ALL 07 SEALS UNLOCKED</div>
       <h2 class="finale-headline">AKHIRNYA,<br><span>BEBAS.</span></h2>
@@ -484,7 +565,7 @@ body.finale-open{overflow:hidden}
 <dialog id="devResetDialog" aria-labelledby="devResetTitle" aria-describedby="devResetDescription">
   <div class="dev-reset-head"><span class="dev-reset-kicker">MASTER AIMAN / DEV CONTROL</span><button type="button" class="dev-reset-close" id="devResetClose" aria-label="Tutup pengaturan developer">×</button></div>
   <div class="dev-reset-body"><h2 id="devResetTitle">RESET<br>7 SEGEL.</h2>
-    <p id="devResetDescription">Kunci kembali seluruh segel, matikan High Voltage Mode, dan ulangi petualangan dari awal. Semua data progres segel akan dihapus <strong>hanya di browser ini</strong>. Pilihan warna Light/Dark tidak dihapus.</p>
+    <p id="devResetDescription">Kunci kembali seluruh segel, matikan High Voltage Mode, dan ulangi petualangan dari awal. Progres segel akan dimulai dari <strong>0/7</strong> pada halaman ini. Saat website di-refresh, progres juga otomatis kembali ke awal. Pilihan warna Light/Dark tidak dihapus.</p>
     <div class="dev-reset-progress"><span>PROGRES SAAT INI</span><strong id="devResetCount">00 / 07</strong></div>
     <div class="dev-reset-actions"><button type="button" id="devResetCancel">BATAL</button><button type="button" id="devResetConfirm" class="danger">RESET &amp; ULANGI ↗</button></div>
   </div>
@@ -496,41 +577,47 @@ body.finale-open{overflow:hidden}
 /* ===== EDITABLE PORTFOLIO CONTENT ===== */
 const portfolioData={
   name:"Abdurrahman",role:"Fullstack Developer",
-  bio:"Ganti teks ini dengan perkenalan singkat tentang diri Anda. Ceritakan apa yang Anda bangun, mengapa, dan untuk siapa.",
-  lead:"Saya membangun antarmuka web yang tajam, cepat, dan mudah dipakai.",
-  skills:[["Frontend Development","Lanjutan"],["UI / Motion Design","Menengah"],["Problem Solving","Lanjutan"]],
-  stack:["HTML","CSS","JavaScript","Git","Figma","Node.js"],
-  interests:["Game","Desain antarmuka","Open source"],
+  bio:"Saya senang mengubah ide menjadi produk yang fungsional, mudah digunakan, dan nyaman dilihat—mulai dari antarmuka, pengelolaan data, hingga integrasi API. Saya terus belajar dan mengeksplorasi teknologi baru untuk menciptakan pengalaman digital yang bermanfaat bagi pengguna.",
+  lead:"Saya adalah Fullstack Developer yang tertarik membangun solusi digital melalui website dan aplikasi mobile.",
+  skills:[["Web Development","Core Skill"],["Mobile Development","Core Skill"],["Desain","Core Skill"]],
+  stack:["PHP","Laravel","Databases","React","Node","Git","API","Dart","Flutter"],
+  interests:["Web Development","Software Development","Game Development","Desain","Project Managing"],
   projects:[
-    {title:"Project Satu",desc:"Deskripsi singkat project. Ganti dengan penjelasan nyata.",tech:["HTML","CSS","JS"],cat:"Web",year:"2026",github:"",demo:""},
-    {title:"Project Dua",desc:"Deskripsi singkat project. Ganti dengan penjelasan nyata.",tech:["JavaScript","API"],cat:"Aplikasi",year:"2025",github:"",demo:""},
-    {title:"Project Tiga",desc:"Deskripsi singkat project. Ganti dengan penjelasan nyata.",tech:["Node.js"],cat:"Tools",year:"2025",github:"",demo:""}
+    {"title":"Djeroe — Coffee Shop","cat":"Company Profile · Coffee Shop","desc":"Website company profile untuk coffee shop Djeroe yang menghadirkan identitas brand dan informasi kedai melalui tampilan yang menarik, responsif, serta mudah dijelajahi. Dibangun menggunakan HTML, CSS, dan JavaScript tanpa framework untuk pengalaman browsing yang ringan dan interaktif.","tech":["HTML","CSS","JavaScript"],"status":"Sedang dikerjakan","state":"progress","img":"projects/djeroe.png","alt":"Tampilan website company profile Djeroe Coffee Shop","github":"https://github.com/Abaimann/djeroe-coffeshop","demo":"https://abaimann.github.io/djeroe-coffeshop/#beranda","demoLabel":"Live Website"},
+    {"title":"BuildHauss — Kesehatan Motor AI","cat":"Aplikasi Mobile · Otomotif","desc":"Aplikasi mobile untuk membantu pengguna memahami kondisi dan kebutuhan perawatan motor. BuildHauss memanfaatkan AI untuk menganalisis informasi kendaraan dan memberikan panduan perawatan yang lebih personal, sehingga pengguna lebih mudah memantau kesehatan motor dan mengambil keputusan servis.","tech":["Dart","Flutter","AI"],"status":"Tahap akhir pengembangan","state":"progress","img":"projects/buildhauss.png","alt":"Tampilan aplikasi kesehatan motor BuildHauss","github":"https://github.com/Abaimann/BuildHauss","demo":"https://abaimann.github.io/BuildHauss/","demoLabel":"Download Aplikasi"},
+    {"title":"EduLink — English Learning LMS","cat":"Learning Management System","desc":"Platform pembelajaran bahasa Inggris berbasis web yang menggabungkan pengalaman belajar terstruktur dengan fitur tanya-jawab berbantuan AI. EduLink dikembangkan untuk memudahkan akses materi dan mendukung pengguna saat membutuhkan penjelasan tambahan selama proses belajar.","tech":["PHP","Laravel","Blade","Custom CSS","Tailwind CSS"],"img":"projects/edulink.png","alt":"Tampilan dashboard EduLink LMS pembelajaran bahasa Inggris","github":"https://github.com/Abaimann/edulink-codex","demo":"https://salmon-scorpion-446340.hostingersite.com/login","status":"Selesai","state":"done","demoLabel":"Buka Aplikasi"},
+    {"title":"SMPN Satu Atap 1 Bangodua","cat":"Company Profile · Sekolah","desc":"Website profil sekolah untuk memperkuat branding dan memperkenalkan SMPN Satu Atap 1 Bangodua kepada masyarakat. Halaman dirancang agar informasi serta dokumentasi sekolah dapat disampaikan melalui tampilan yang profesional, responsif, dan mudah diakses.","tech":["PHP","Laravel","Blade","Custom CSS","Tailwind CSS"],"status":"Dalam pengembangan","state":"progress","img":"projects/Bangodua.png","alt":"Tampilan website profil SMPN Satu Atap 1 Bangodua","github":"https://github.com/Abaimann/SMPN-Satu-Atap-1-Bangodua-Prototype","demo":"https://youtu.be/Jfh-miAf7m0?si=JA79vtId1PUst7iO","demoLabel":"Demo YouTube"},
+    {"title":"SLB B Tunas Harapan Karawang","cat":"Profil Sekolah · Pendaftaran Online","desc":"Website profil dan branding SLB B Tunas Harapan Karawang yang dilengkapi fasilitas pendaftaran online. Proyek ini bertujuan membantu sekolah menyajikan informasi secara lebih jelas sekaligus memberikan jalur pendaftaran yang lebih praktis bagi calon peserta didik.","tech":["PHP","Laravel","Blade","Custom CSS","Bootstrap"],"status":"Selesai","state":"done","img":"projects/slbb.png","alt":"Tampilan website SLB B Tunas Harapan Karawang","github":"https://github.com/Abaimann/SLB-B-TunasHarapan-Karawang","demo":"https://youtu.be/1ksO8WuCUfI?si=IWB7b9eR55HGCDi3","demoLabel":"Demo YouTube"},
+    {"title":"Sistem Monitoring Sekolah","cat":"Sistem Akademik · Penelitian Skripsi","desc":"Sistem monitoring sekolah yang dikembangkan sebagai fokus utama sekaligus bagian dari penelitian skripsi. Proyek ini diarahkan untuk membantu pemantauan dan pengelolaan informasi sekolah secara lebih terstruktur, sehingga proses peninjauan data menjadi lebih praktis.","tech":["PHP","Laravel","CSS","Tailwind CSS"],"status":"Prioritas utama · Sedang dikerjakan","state":"priority","img":"projects/sistem-monitoring.jpg","alt":"Pratinjau proyek Sistem Monitoring Sekolah yang sedang dalam proses","github":"https://github.com/Abaimann/MonitoringAkademik-SMPN-1-ATAP-1-BANGODUA","demo":"","demoLabel":""},
+    {"title":"Portofolio Muhammad Baihaqi","cat":"Website Portofolio · Formal","desc":"Website portofolio personal dengan gaya formal untuk memperkenalkan profil, latar belakang, dan informasi profesional Muhammad Baihaqi. Desain dibuat bersih dan terarah agar pengunjung dapat menemukan informasi penting dengan mudah.","tech":["HTML","CSS","JavaScript"],"status":"Selesai","state":"done","img":"projects/baihaqi.png","alt":"Tampilan website portofolio formal Muhammad Baihaqi","github":"https://github.com/Abaimann/Portofolio-MuhammadBaihaqi-Hukum23","demo":"https://abaimann.github.io/Portofolio-MuhammadBaihaqi-Hukum23/#/home","demoLabel":"Live Website"},
+    {"title":"Portofolio Aulia Zahrani Putri","cat":"Website Portofolio · Semi-formal","desc":"Website portofolio bergaya semi-formal dengan pendekatan visual yang personal namun tetap rapi dan profesional. Dibangun untuk menampilkan profil dan informasi Aulia Zahrani Putri melalui navigasi yang sederhana dan tampilan yang responsif.","tech":["HTML","CSS","JavaScript"],"status":"Selesai","state":"done","img":"projects/aulia.png","alt":"Tampilan website portofolio Aulia Zahrani Putri","github":"https://github.com/Abaimann/Portofolio-AuliaZahraniPutri-Akuntansi23","demo":"https://abaimann.github.io/Portofolio-AuliaZahraniPutri-Akuntansi23/","demoLabel":"Live Website"},
+    {"title":"Portofolio Razita Fakhira Irdina","cat":"Website Portofolio · Semi-formal","desc":"Website portofolio semi-formal yang menggabungkan tata letak informatif dengan sentuhan desain modern untuk memperkenalkan profil Razita Fakhira Irdina. Konten disusun agar pengalaman membaca tetap nyaman di berbagai ukuran layar.","tech":["HTML","CSS","JavaScript"],"status":"Selesai","state":"done","img":"projects/razita.png","alt":"Tampilan website portofolio Razita Fakhira Irdina","github":"https://github.com/Abaimann/Portofolio-RazitaFakhiraIrdina-Agribisnis23","demo":"https://abaimann.github.io/Portofolio-RazitaFakhiraIrdina-Agribisnis23/","demoLabel":"Live Website"}
   ],
   experience:[
-    {pos:"Posisi / Jabatan",org:"Nama Perusahaan atau Organisasi",year:"2025–Sekarang",desc:"Ringkasan peran Anda.",tasks:["Tanggung jawab pertama","Tanggung jawab kedua"],tech:["JavaScript","Git"]},
-    {pos:"Posisi Sebelumnya",org:"Nama Organisasi",year:"2023–2025",desc:"Ringkasan peran Anda.",tasks:["Tanggung jawab pertama","Tanggung jawab kedua"],tech:["HTML","CSS"]}
+    {pos:"Web Developer — Relawan TIK Karawang",org:"Desa Medalsari",place:"Karawang",year:"2026",desc:"",tasks:["Membangun website yang responsif untuk sistem Desa Medalsari.","Membangun website interaktif untuk meningkatkan pengalaman pengguna.","Mendampingi dan melakukan pelatihan kepada admin sistem desa."],tech:[]},
+    {pos:"Web Developer — Volunteer Hai Desa Fasilkom Unsika",org:"Desa Pulosari",place:"Karawang",year:"2025",desc:"",tasks:["Membangun website yang responsif untuk sistem Desa Pulosari.","Membangun website interaktif untuk meningkatkan pengalaman pengguna.","Mendampingi dan melakukan pelatihan kepada admin sistem desa."],tech:[]}
   ],
   education:[
-    {inst:"Nama Universitas / Sekolah",major:"Jurusan",year:"2022–2026",activities:"Organisasi atau kegiatan",achievements:"Penghargaan atau prestasi",certs:["Sertifikasi contoh"]},
-    {inst:"Nama SMA / SMK",major:"Jurusan",year:"2019–2022",activities:"Ekstrakurikuler",achievements:"Prestasi",certs:[]}
+    {inst:"Universitas Singaperbangsa Karawang",major:"Mahasiswa aktif",year:"Saat ini",activities:"IPK 3,87 · Semester 7",achievements:"Informatika",activityLabel:"IPK / Semester",achievementLabel:"Jurusan",certs:[]},
+    {inst:"SMA Islam Al Azhar 5 Cirebon",major:"",year:"2019–2023",studyField:"IPA",activities:"Futsal",achievements:"Murid tercinta semua orang",activityLabel:"Ekstrakurikuler",achievementLabel:"Prestasi",certs:[]}
   ],
-  hobbies:[{t:"Gaming",d:"Ceritakan game favorit dan alasannya."},{t:"Coding",d:"Proyek sampingan di akhir pekan."},{t:"Musik",d:"Genre atau artis."},{t:"Foto",d:"Subjek."},{t:"Desain",d:"Poster, UI, dan eksperimen."},{t:"Hobi lain",d:"Tambahkan hobi Anda di sini."}],
-  gallery:[{t:"Foto 1",c:"Karya"},{t:"Foto 2",c:"Karya"},{t:"Foto 3",c:"Kegiatan"},{t:"Foto 4",c:"Kegiatan"},{t:"Foto 5",c:"Setup"},{t:"Foto 6",c:"Setup"}],
-  social:{github:"",linkedin:"",instagram:"",email:""}
+  hobbies:[{t:"Gaming",d:"Menikmati berbagai game sebagai hiburan sekaligus sarana melepas penat.",img:"Hobbies/gaming.jpg",alt:"Ilustrasi hobi gaming"},{t:"Coding",d:"Suka membangun sesuatu dari ide menjadi solusi yang bisa dipakai.",img:"Hobbies/coding.jpg",alt:"Ilustrasi hobi coding"},{t:"Music",d:"Mendengarkan musik untuk menjaga fokus, mood, dan kreativitas.",img:"Hobbies/music.jpg",alt:"Ilustrasi hobi music"},{t:"Adventure",d:"Senang mengeksplorasi pengalaman baru, tempat baru, dan tantangan baru.",img:"Hobbies/adventure.jpg",alt:"Ilustrasi hobi adventure"},{t:"Making Assists",d:"Sepak bola menjadi salah satu aktivitas yang saya nikmati, terutama saat membangun permainan tim.",img:"Hobbies/making assits.jpg",alt:"Ilustrasi hobi sepak bola"}],
+  gallery:[{"t":"Photo 01","img":"Galery/WhatsApp Image 2026-11-03 at 13.03.59.jpeg","alt":"Foto galeri 01 Abdurrahman"},{"t":"Photo 02","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.00.jpeg","alt":"Foto galeri 02 Abdurrahman"},{"t":"Photo 03","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.02.jpeg","alt":"Foto galeri 03 Abdurrahman"},{"t":"Photo 04","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.03.jpeg","alt":"Foto galeri 04 Abdurrahman"},{"t":"Photo 05","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.04.jpeg","alt":"Foto galeri 05 Abdurrahman"},{"t":"Photo 06","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.05.jpeg","alt":"Foto galeri 06 Abdurrahman"},{"t":"Photo 07","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.06.jpeg","alt":"Foto galeri 07 Abdurrahman"},{"t":"Photo 08","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.07.jpeg","alt":"Foto galeri 08 Abdurrahman"},{"t":"Photo 09","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.11.jpeg","alt":"Foto galeri 09 Abdurrahman"},{"t":"Photo 10","img":"Galery/WhatsApp Image 2026-11-03 at 13.04.12.jpeg","alt":"Foto galeri 10 Abdurrahman"},{"t":"Photo 11","img":"Galery/WhatsApp Image 2026-11-03 at 13.08.07.jpeg","alt":"Foto galeri 11 Abdurrahman"},{"t":"Photo 12","img":"Galery/WhatsApp Image 2026-11-03 at 13.10.31.jpeg","alt":"Foto galeri 12 Abdurrahman"},{"t":"Photo 13","img":"Galery/WhatsApp Image 2026-11-03 at 13.10.32.jpeg","alt":"Foto galeri 13 Abdurrahman"},{"t":"Photo 14","img":"Galery/as.jpeg","alt":"Foto galeri 14 Abdurrahman"},{"t":"Photo 15","img":"Galery/bbs.jpeg","alt":"Foto galeri 15 Abdurrahman"},{"t":"Photo 16","img":"Galery/bc.jpeg","alt":"Foto galeri 16 Abdurrahman"},{"t":"Photo 17","img":"Galery/bd.jpeg","alt":"Foto galeri 17 Abdurrahman"},{"t":"Photo 18","img":"Galery/hdus.jpeg","alt":"Foto galeri 18 Abdurrahman"},{"t":"Photo 19","img":"Galery/iu.jpeg","alt":"Foto galeri 19 Abdurrahman"},{"t":"Photo 20","img":"Galery/jis.jpeg","alt":"Foto galeri 20 Abdurrahman"},{"t":"Photo 21","img":"Galery/joa.jpeg","alt":"Foto galeri 21 Abdurrahman"},{"t":"Photo 22","img":"Galery/jos.jpeg","alt":"Foto galeri 22 Abdurrahman"},{"t":"Photo 23","img":"Galery/kas.jpeg","alt":"Foto galeri 23 Abdurrahman"},{"t":"Photo 24","img":"Galery/kl.jpeg","alt":"Foto galeri 24 Abdurrahman"},{"t":"Photo 25","img":"Galery/ko.jpeg","alt":"Foto galeri 25 Abdurrahman"},{"t":"Photo 26","img":"Galery/kop.jpeg","alt":"Foto galeri 26 Abdurrahman"},{"t":"Photo 27","img":"Galery/man.jpeg","alt":"Foto galeri 27 Abdurrahman"},{"t":"Photo 28","img":"Galery/nc.jpeg","alt":"Foto galeri 28 Abdurrahman"},{"t":"Photo 29","img":"Galery/nd.jpeg","alt":"Foto galeri 29 Abdurrahman"},{"t":"Photo 30","img":"Galery/nos.jpeg","alt":"Foto galeri 30 Abdurrahman"},{"t":"Photo 31","img":"Galery/vd.jpeg","alt":"Foto galeri 31 Abdurrahman"},{"t":"Photo 32","img":"Galery/we.jpeg","alt":"Foto galeri 32 Abdurrahman"},{"t":"Photo 33","img":"Galery/xc.jpeg","alt":"Foto galeri 33 Abdurrahman"},{"t":"Photo 34","img":"Galery/yt.jpeg","alt":"Foto galeri 34 Abdurrahman"}],
+  social:{github:"https://github.com/Abaimann",linkedin:"https://www.linkedin.com/in/abdurrahman-aiman-031750357/",instagram:"https://www.instagram.com/abaimannn/",email:"abdurrahmanaiman777@gmail.com"}
 };
 const D=portfolioData,ACC=['--blue','--red','--yel','--grn'];
 const ICON={about:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',projects:'<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',experience:'<path d="M3 8h18v12H3zM8 8V4h8v4M3 13h18"/>',education:'<path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2.5 9 2.5 12 0v-5"/>',hobbies:'<path d="M6 8h12a4 4 0 0 1 4 4l-1 5a2 2 0 0 1-3.5 1L16 16H8l-1.5 2A2 2 0 0 1 3 17l-1-5a4 4 0 0 1 4-4zM8 10v4M6 12h4M16 11h.01M18 13h.01"/>',gallery:'<path d="M3 4h18v16H3zM3 16l5-5 5 5 3-3 5 5M15 9h.01"/>',contact:'<path d="M3 5h18v14H3zM3 6l9 7 9-7"/>'};
 const MENU=[{id:'about',label:'ABOUT ME',x:50,y:9},{id:'hobbies',label:'HOBBIES',x:76,y:24},{id:'gallery',label:'GALLERY',x:83,y:47},{id:'education',label:'EDUCATION',x:76,y:80},{id:'contact',label:'CONTACT',x:37,y:90},{id:'experience',label:'EXPERIENCE',x:16,y:64},{id:'projects',label:'PROJECTS',x:19,y:27}];
+// Seven seals exist only for the lifetime of this page. Every new load starts at 0/7.
+// Remove progress saved by older versions, but DO NOT touch the saved theme.
 const VISITED_KEY='abdurrahman_portfolio_visited_v1';
-const visitedSections=new Set((()=>{
-  try{const saved=JSON.parse(localStorage.getItem(VISITED_KEY)||'[]');return Array.isArray(saved)?saved.filter(id=>MENU.some(m=>m.id===id)):[]}
-  catch(_){return []}
-})());
+try{localStorage.removeItem(VISITED_KEY)}catch(_){}
+const visitedSections=new Set();
 const TITLES={about:'About Me',projects:'Projects',experience:'Experience',education:'Education',hobbies:'Hobbies',gallery:'Gallery',contact:'Contact'};
 const SUB={about:'Tentang saya',projects:'Karya terpilih',experience:'Pengalaman kerja',education:'Perjalanan belajar',hobbies:'Di luar layar',gallery:'Dokumentasi visual',contact:'Mari bicara'};
 const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,dur=n=>reduce?0:n,$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-/* SVG PLACEHOLDER (no external assets) */
+/* MEDIA RENDERER */
 function ph(i,label){const ac=ACC[i%4];let g='';
   if(i%4===0)g='<circle cx="200" cy="130" r="70" fill="none" stroke="var(--fg)" stroke-width="2"/><rect x="170" y="100" width="60" height="60" fill="var('+ac+')"/>';
   if(i%4===1)g='<path d="M0 300L400 0M60 300L400 40M120 300L400 80M180 300L400 120" stroke="var(--fg)" stroke-width="1.5"/><rect x="40" y="40" width="70" height="70" fill="var('+ac+')"/>';
@@ -538,14 +625,21 @@ function ph(i,label){const ac=ACC[i%4];let g='';
   if(i%4===3)g='<g fill="var(--fg)"><rect x="50" y="150" width="50" height="100"/><rect x="120" y="100" width="50" height="150"/><rect x="190" y="60" width="50" height="190"/></g><rect x="260" y="60" width="50" height="190" fill="var('+ac+')"/>';
   return '<svg viewBox="0 0 400 300" role="img" aria-label="'+e(label)+' (placeholder)" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="var(--bg2)"/>'+g+'<text x="14" y="288" font-size="11" fill="var(--mut)" font-family="Arial">PLACEHOLDER — '+e(label)+'</text></svg>'
 }
+function media(item,i,fit='cover'){
+  if(item && item.img){
+    const alt=e(item.alt||item.t||'Image');
+    return '<img src="'+e(item.img)+'" alt="'+alt+'" loading="lazy" decoding="async" style="object-fit:'+fit+'">';
+  }
+  return ph(i,item&&item.t?item.t:'Media');
+}
 const lk=(url,label)=>url?'<a class="btn" href="'+e(url)+'" target="_blank" rel="noopener">'+label+' <span class="arrow">↗</span></a>':'<span class="btn off" title="URL belum diisi">'+label+' (placeholder)</span>';
 const VIEWS={
-  about:()=>`<div class="grid2"><div class="stack"><p class="lead">${e(D.lead)}</p><p style="color:var(--mut);max-width:60ch">${e(D.bio)}</p><div><h2 style="--ac:var(--blue)">Interests</h2><div class="tags">${D.interests.map(i=>'<span class="tag">'+e(i)+'</span>').join('')}</div></div></div><div class="stack"><div class="box rv"><h2 style="--ac:var(--red)">Skills</h2>${D.skills.map(s=>'<div class="row"><b>'+e(s[0])+'</b><span>'+e(s[1])+'</span></div>').join('')}</div><div class="box rv"><h2 style="--ac:var(--grn)">Tech stack</h2><div class="tags">${D.stack.map(i=>'<span class="tag">'+e(i)+'</span>').join('')}</div></div></div></div>`,
-  projects:()=>`<div class="pg">${D.projects.map((p,i)=>`<article class="card rv" style="--ac:var(${ACC[i%4]})"><div class="thumb">${ph(i,p.title)}</div><div class="cb"><div class="ct"><span>No. ${String(i+1).padStart(2,'0')} · ${e(p.cat)}</span><span>${e(p.year)}</span></div><h3>${e(p.title)} <span class="arrow">↗</span></h3><p>${e(p.desc)}</p><div class="tags">${p.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div><div class="links">${lk(p.github,'GitHub')}${lk(p.demo,'Live Demo')}</div></div></article>`).join('')}</div>`,
-  experience:()=>`<div class="tl">${D.experience.map((x,i)=>`<div class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="yr">${e(x.year)}</div><div class="box"><h3>${e(x.pos)}</h3><h4>${e(x.org)}</h4><p style="font-size:14px">${e(x.desc)}</p><ul>${x.tasks.map(t=>'<li>'+e(t)+'</li>').join('')}</ul><div class="tags">${x.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div></div></div>`).join('')}</div>`,
-  education:()=>`<div class="tl">${D.education.map((x,i)=>`<div class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="yr">${e(x.year)}</div><div class="box"><h3>${e(x.inst)}</h3><h4>${e(x.major)}</h4><div class="row"><b>Kegiatan</b><span>${e(x.activities)}</span></div><div class="row"><b>Prestasi</b><span>${e(x.achievements)}</span></div>${x.certs.length?'<div class="tags" style="margin-top:12px">'+x.certs.map(t=>'<span class="tag">'+e(t)+'</span>').join('')+'</div>':''}</div></div>`).join('')}</div>`,
-  hobbies:()=>`<div class="hg">${D.hobbies.map((h,i)=>`<div class="hc rv" style="--ac:var(${ACC[i%4]})"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48"/><rect x="24" y="24" width="16" height="16"/></svg><div><h3>${e(h.t)}</h3><p>${e(h.d)}</p></div></div>`).join('')}</div>`,
-  gallery:()=>`<div class="flt" id="flt"></div><div class="gg" id="gg"></div>`,
+  about:()=>`<div class="grid2"><div class="stack"><p class="lead">${e(D.lead)}</p><p style="color:var(--mut);max-width:60ch;white-space:pre-line">${e(D.bio)}</p><div class="box rv"><h2 style="--ac:var(--blue)">Interests</h2><div class="tags">${D.interests.map(i=>'<span class="tag'+(['Web Development','Software Development'].includes(i)?' tag-primary':'')+'">'+e(i)+'</span>').join('')}</div></div></div><div class="stack"><div class="box rv"><h2 style="--ac:var(--red)">Skills</h2>${D.skills.map(s=>'<div class="row"><b>'+e(s[0])+'</b><span>'+e(s[1])+'</span></div>').join('')}</div><div class="box rv"><h2 style="--ac:var(--grn)">Tech stack</h2><div class="tags">${D.stack.map(i=>'<span class="tag'+(['PHP','Laravel'].includes(i)?' tag-primary':'')+'">'+e(i)+'</span>').join('')}</div></div></div></div>`,
+  projects:()=>`<div class="pg">${D.projects.map((p,i)=>`<article class="card rv project-card" style="--ac:var(${ACC[i%4]})"><div class="thumb">${media(p,i,'cover')}</div><div class="cb"><div class="ct"><span>No. ${String(i+1).padStart(2,'0')} · ${e(p.cat)}</span>${p.status?`<span class="project-status status-${e(p.state||'progress')}">${e(p.status)}</span>`:''}</div><h3>${e(p.title)}</h3><p>${e(p.desc)}</p><div class="tags">${p.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div><div class="links">${p.github?lk(p.github,'Repository'):''}${p.demo?lk(p.demo,p.demoLabel||'Live Website'):''}</div></div></article>`).join('')}</div>`,
+  experience:()=>`<div class="tl xp-list">${D.experience.map((x,i)=>`<article class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="xp-date"><div class="yr">${e(x.year)}</div>${x.place?`<span class="xp-place">${e(x.place)}</span>`:''}</div><div class="box xp-card"><div class="xp-header"><div><h3>${e(x.pos)}</h3><h4>${e(x.org)}</h4></div><span class="xp-period">${e(x.place||'')} · ${e(x.year)}</span></div>${x.desc?`<p class="xp-summary">${e(x.desc)}</p>`:''}<ul>${x.tasks.map(t=>'<li>'+e(t)+'</li>').join('')}</ul>${x.tech&&x.tech.length?`<div class="tags">${x.tech.map(t=>'<span class="tag">'+e(t)+'</span>').join('')}</div>`:''}</div></article>`).join('')}</div>`,
+  education:()=>`<div class="tl edu-list">${D.education.map((x,i)=>`<article class="ti rv" style="--ac:var(${ACC[i%4]})"><div class="yr">${e(x.year)}</div><div class="box"><h3>${e(x.inst)}</h3>${x.major?`<h4>${e(x.major)}</h4>`:''}${x.studyField?`<div class="row"><b>Jurusan</b><span>${e(x.studyField)}</span></div>`:''}<div class="row"><b>${e(x.activityLabel||'Kegiatan')}</b><span>${e(x.activities)}</span></div><div class="row"><b>${e(x.achievementLabel||'Prestasi')}</b><span>${e(x.achievements)}</span></div>${x.certs.length?'<div class="tags" style="margin-top:12px">'+x.certs.map(t=>'<span class="tag">'+e(t)+'</span>').join('')+'</div>':''}</div></article>`).join('')}</div>`,
+  hobbies:()=>`<div class="hg" id="hobbiesGrid">${D.hobbies.map((h,i)=>`<button type="button" class="hc rv" data-j="${i}" style="--ac:var(${ACC[i%4]})" aria-pressed="false" aria-label="Buka segel ${e(h.t)}"><div class="hc-image" aria-hidden="true"><img src="${e(h.img)}" alt="" loading="lazy" decoding="async"></div><div class="hc-top"><span class="hc-index">${String(i+1).padStart(2,'0')} / 05</span><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48"/><rect x="24" y="24" width="16" height="16"/></svg></div><div class="hc-text"><div><h3>${e(h.t)}</h3><p>${e(h.d)}</p></div><span class="hc-hint">CLICK TO UNLOCK ↗</span></div></button>`).join('')}</div>`,
+  gallery:()=>`<div class="gg" id="gg"></div>`,
   contact:()=>{const s=D.social,row=(k,l,u)=>u?'<a class="big" style="--ac:var('+ACC[k]+')" href="'+e(u)+'" '+(u.startsWith('mailto:')?'':'target="_blank" rel="noopener"')+'><span>'+l+'</span><span class="arrow">↗</span></a>':'<div class="big off"><span>'+l+'</span><small>belum diisi (placeholder)</small></div>';return `<div class="grid2"><div><p class="lead" style="margin-bottom:32px">Punya ide atau ingin berkolaborasi? Kirim pesan, saya akan membalas lewat email.</p>${row(0,'Email',s.email&&'mailto:'+s.email)}${row(1,'GitHub',s.github)}${row(2,'LinkedIn',s.linkedin)}${row(3,'Instagram',s.instagram)}</div><form class="box" id="cf" novalidate><label for="fn">NAMA</label><input id="fn" autocomplete="name"><div class="err" data-e="fn"></div><label for="fe">EMAIL ANDA</label><input id="fe" type="email" autocomplete="email"><div class="err" data-e="fe"></div><label for="fm">PESAN</label><textarea id="fm"></textarea><div class="err" data-e="fm"></div><button class="btn" type="submit">BUKA APLIKASI EMAIL <span class="arrow">→</span></button><p id="st" role="status"></p></form></div>`}
 };
 /* ===== THEME ===== */
@@ -586,7 +680,7 @@ function buildViews(){
   app.appendChild(home);views.home=home;
   $('#replayFinale').addEventListener('click',startMasterFinale);
   MENU.forEach((m,i)=>{const s=document.createElement('section');s.className='view';s.dataset.view=m.id;s.hidden=true;s.style.setProperty('--section-ac','var('+ACC[i%4]+')');s.innerHTML=`<div class="page"><a class="back" href="#/"><span>←</span> BACK TO HOME</a><div class="ph1"><h1 class="t" data-title="${e(TITLES[m.id])}" tabindex="-1">${e(TITLES[m.id])}</h1><p>${SUB[m.id]}</p></div><div class="body">${VIEWS[m.id]()}</div></div>`;if(visitedSections.has(m.id))s.classList.add('title-colored');app.appendChild(s);views[m.id]=s});
-  initGallery();initContact();
+  initGallery();initHobbies();initContact();
   applyVisitedCircuits(); // Restore seals and the replay control on mobile too.
 }
 /* ===== CONNECTION LINES ===== */
@@ -604,7 +698,7 @@ function orbitArc(cx,cy,rx,ry,start,end){
   return path;
 }
 function applyVisitedCircuits(){
-  // Persisted seven-seal state: fast animations must survive finale, navigation and reload.
+  // The unlocked state and fast animations last until this page is refreshed/closed.
   document.body.classList.toggle('master-unlocked',visitedSections.size===MENU.length);
   const hub=$('#hub');if(!hub)return;
   hub.classList.toggle('has-visited',visitedSections.size>0);
@@ -647,7 +741,7 @@ function awakenSeal(id){
 function rememberVisited(id){
   if(!MENU.some(m=>m.id===id)||visitedSections.has(id))return false;
   visitedSections.add(id);
-  try{localStorage.setItem(VISITED_KEY,JSON.stringify([...visitedSections]))}catch(_){}
+  // Do not persist seal progress: a fresh page load must always start at 0/7.
   applyVisitedCircuits();
   awakenSeal(id);
   showSealToast(id);
@@ -709,18 +803,34 @@ function resetFinalFlash(){
 }
 
 const finaleDelay=(fn,ms)=>{const id=setTimeout(fn,ms);finaleTimers.push(id);return id};
+let finalePoseToken=0;
+function resetFinalePose(){
+  ++finalePoseToken; // Ignore an unfinished image decode from a previous reward visit.
+  const first=$('#finaleCharacter'),second=$('#finaleCharacterNext');
+  first.classList.remove('pose-receding');
+  first.removeAttribute('aria-hidden');
+  second.classList.remove('pose-visible');
+  second.setAttribute('aria-hidden','true');
+  second.removeAttribute('src');
+}
 function swapFinalePose(src,alt){
-  const avatar=$('#finaleCharacter');
-  if(!avatar||!src)return;
-  if(avatar.getAttribute('src')===src){if(alt)avatar.alt=alt;return}
-  if(reduce){avatar.src=src;if(alt)avatar.alt=alt;return}
-  avatar.animate([{opacity:1,transform:'translateY(0) scale(1)'},{opacity:0,transform:'translateY(10px) scale(.98)'}],{duration:230,easing:'ease-in',fill:'forwards'}).finished
-    .catch(()=>{})
-    .then(()=>{
-      avatar.src=src;
-      if(alt)avatar.alt=alt;
-      avatar.animate([{opacity:0,transform:'translateY(12px) scale(.98)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:360,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
-    });
+  const first=$('#finaleCharacter'),second=$('#finaleCharacterNext');
+  if(!first||!second||!src||finaleState!=='open')return;
+  const token=++finalePoseToken;
+  second.alt=alt||'Pose kedua Master Aiman';
+  second.src=src; // Load the new pose behind the still-visible original.
+  const reveal=()=>{
+    if(token!==finalePoseToken||finaleState!=='open')return;
+    // One simultaneous cross-dissolve, rather than a flash of empty space.
+    second.classList.add('pose-visible');
+    first.classList.add('pose-receding');
+    first.setAttribute('aria-hidden','true');
+    second.removeAttribute('aria-hidden');
+  };
+  if(reduce){reveal();return}
+  if(typeof second.decode==='function')second.decode().then(()=>requestAnimationFrame(reveal),()=>requestAnimationFrame(reveal));
+  else if(second.complete)requestAnimationFrame(reveal);
+  else{second.onload=()=>requestAnimationFrame(reveal);second.onerror=()=>requestAnimationFrame(reveal)}
 }
 
 function typeFinaleText(element,text,step,done){
@@ -809,6 +919,8 @@ function explodeMasterFinale(){
 }
 function openMasterReward(dialogueDelay=420){
   const scene=$('#finale'),avatar=$('#finaleCharacter');
+  resetFinalePose();
+  scene.classList.remove('returning');
   avatar.src=MASTER_IMAGE_THANKFUL;
   avatar.alt='Karakter ilustrasi Abdurrahman dalam pose berterima kasih';
   $('#finaleThanks').textContent='';$('#finaleQuote').textContent='';
@@ -826,19 +938,37 @@ function openMasterReward(dialogueDelay=420){
   }),reduce?0:dialogueDelay);
 }
 function closeMasterReward(){
-  if(finaleState==='idle')return;
+  if(finaleState==='idle'||finaleState==='returning')return;
+  const wasOpen=finaleState==='open';
+  finaleState='returning';
   clearTimeout(finaleTyping);
   finaleTimers.forEach(clearTimeout);finaleTimers=[];
-  document.body.classList.remove('finale-charge','finale-open');
-  app.inert=false;
-  const scene=$('#finale');scene.classList.remove('visible');scene.hidden=true;scene.setAttribute('aria-hidden','true');
-  $('#finalBurst').hidden=true;$('#burstPieces').replaceChildren();
-  resetFinalFlash();
-  finaleState='idle';
-  const back=$('#replayFinale');
-  if(cur==='home'&&back&&!back.hidden)back.focus({preventScroll:true});
-  else if(finaleLastFocus?.isConnected)finaleLastFocus.focus({preventScroll:true});
-  restartAmbient();
+  ++finalePoseToken;
+  const scene=$('#finale'),hub=$('#hub');
+  const complete=()=>{
+    scene.classList.remove('returning','visible');
+    scene.hidden=true;
+    scene.setAttribute('aria-hidden','true');
+    document.body.classList.remove('finale-charge','finale-open');
+    app.inert=false;
+    $('#finalBurst').hidden=true;$('#burstPieces').replaceChildren();
+    resetFinalFlash();resetFinalePose();
+    finaleState='idle';
+    const back=$('#replayFinale');
+    if(cur==='home'&&back&&!back.hidden)back.focus({preventScroll:true});
+    else if(finaleLastFocus?.isConnected)finaleLastFocus.focus({preventScroll:true});
+    restartAmbient();
+  };
+  if(reduce||!wasOpen){complete();return}
+  // Reveal the portfolio behind the fading reward and re-energize the Home hub.
+  scene.classList.add('returning');
+  if(hub){
+    hub.classList.remove('reward-reenter');
+    void hub.offsetWidth;
+    hub.classList.add('reward-reenter');
+    hub.addEventListener('animationend',()=>hub.classList.remove('reward-reenter'),{once:true});
+  }
+  setTimeout(complete,785);
 }
 $('#finaleClose').addEventListener('click',closeMasterReward);
 $('#finaleReturn').addEventListener('click',closeMasterReward);
@@ -1035,11 +1165,36 @@ async function runRoute(){
 function revealScan(root){const els=$$('.rv:not(.in)',root);if(!('IntersectionObserver' in window)||reduce){els.forEach(x=>x.classList.add('in'));return}const io=new IntersectionObserver(en=>en.forEach(o=>{if(o.isIntersecting){setTimeout(()=>o.target.classList.add('in'),(o.target.dataset.d|0));io.unobserve(o.target)}}),{threshold:.08});els.forEach((x,i)=>{x.dataset.d=(i%4)*70;io.observe(x)})}
 function initNavigation(){addEventListener('hashchange',()=>{want=routeOf();if(!busy)runRoute()});let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(cur==='home')initConnectionLines()},100)});want=routeOf();runRoute()}
 /* ===== GALLERY & LIGHTBOX ===== */
-let gf='Semua',gl=[],gi=0,lastFocus=null;
-function initGallery(){const cats=['Semua',...new Set(D.gallery.map(g=>g.c))],f=$('#flt'),g=$('#gg');const draw=()=>{f.innerHTML=cats.map(c=>`<button type="button" aria-pressed="${c===gf}" data-c="${e(c)}">${e(c).toUpperCase()}</button>`).join('');gl=D.gallery.map((x,i)=>({...x,i})).filter(x=>gf==='Semua'||x.c===gf);g.innerHTML=gl.map((x,j)=>`<button type="button" class="gi" data-j="${j}" style="--ac:var(${ACC[x.i%4]})" aria-label="Buka ${e(x.t)}"><div class="thumb">${ph(x.i,x.t)}</div><div class="cap"><span>${e(x.t)}</span><span>${e(x.c)}</span></div></button>`).join('')};draw();f.addEventListener('click',ev=>{const b=ev.target.closest('button');if(b){gf=b.dataset.c;draw()}});g.addEventListener('click',ev=>{const b=ev.target.closest('.gi');if(b)openLb(+b.dataset.j,b)});$('#lbp').onclick=()=>stepLb(-1);$('#lbn').onclick=()=>stepLb(1);$('#lbc').onclick=closeLb;$('#lb').addEventListener('click',ev=>{if(ev.target.id==='lb')closeLb()});addEventListener('keydown',ev=>{if($('#devResetDialog')?.open||$('#lb').hidden)return;if(ev.key==='Escape')closeLb();else if(ev.key==='ArrowLeft')stepLb(-1);else if(ev.key==='ArrowRight')stepLb(1);else if(ev.key==='Tab'){const f=$$('#lb button'),a=f[0],z=f[f.length-1];if(ev.shiftKey&&document.activeElement===a){ev.preventDefault();z.focus()}else if(!ev.shiftKey&&document.activeElement===z){ev.preventDefault();a.focus()}}})}
-function showLb(){const x=gl[gi];$('#lbimg').innerHTML=ph(x.i,x.t);$('#lbcap').textContent=(gi+1)+' / '+gl.length+' — '+x.t}
-function openLb(j,from){lastFocus=from;gi=j;showLb();$('#lb').hidden=false;document.body.style.overflow='hidden';$('#lbc').focus()}
-function stepLb(d){gi=(gi+d+gl.length)%gl.length;showLb()}
+let gl=[],gi=0,lastFocus=null,lbItems=[];
+function initGallery(){
+  const g=$('#gg');
+  if(!g)return;
+  gl=D.gallery.map((x,i)=>({...x,i}));
+  g.innerHTML=gl.map((x,j)=>`<button type="button" class="gi rv" data-j="${j}" style="--ac:var(${ACC[j%4]})" aria-label="Buka ${e(x.t)}"><div class="thumb">${media(x,j,'cover')}</div><div class="cap"><span>${e(x.t)}</span></div></button>`).join('');
+  g.addEventListener('click',ev=>{const b=ev.target.closest('.gi');if(b)openLb(+b.dataset.j,b,gl)});
+  $('#lbp').onclick=()=>stepLb(-1);$('#lbn').onclick=()=>stepLb(1);$('#lbc').onclick=closeLb;
+  $('#lb').addEventListener('click',ev=>{if(ev.target.id==='lb')closeLb()});
+  addEventListener('keydown',ev=>{if($('#devResetDialog')?.open||$('#lb').hidden)return;if(ev.key==='Escape')closeLb();else if(ev.key==='ArrowLeft')stepLb(-1);else if(ev.key==='ArrowRight')stepLb(1);else if(ev.key==='Tab'){const f=$$('#lb button'),a=f[0],z=f[f.length-1];if(ev.shiftKey&&document.activeElement===a){ev.preventDefault();z.focus()}else if(!ev.shiftKey&&document.activeElement===z){ev.preventDefault();a.focus()}}});
+}
+function initHobbies(){
+  const g=$('#hobbiesGrid');
+  if(!g)return;
+  g.addEventListener('click',ev=>{
+    const b=ev.target.closest('.hc');
+    if(!b||b.classList.contains('is-unlocked'))return;
+    // Unlock the illustration INSIDE the clicked card, without opening the gallery modal.
+    b.classList.add('is-unlocked','is-unlocking');
+    b.setAttribute('aria-pressed','true');
+    b.setAttribute('aria-label',D.hobbies[Number(b.dataset.j)].t+' terbuka');
+    const hint=b.querySelector('.hc-hint');
+    if(hint)hint.textContent='UNLOCKED ✓';
+    b.addEventListener('animationend',()=>b.classList.remove('is-unlocking'),{once:true});
+    if(reduce)b.classList.remove('is-unlocking');
+  });
+}
+function showLb(){const x=lbItems[gi];$('#lbimg').innerHTML=media(x,gi,'contain');$('#lbcap').textContent=(gi+1)+' / '+lbItems.length+' — '+x.t}
+function openLb(j,from,items){lastFocus=from;lbItems=items&&items.length?items:gl;gi=j;showLb();$('#lb').hidden=false;document.body.style.overflow='hidden';$('#lbc').focus();if(!reduce){const panel=$('#lb .in');panel.animate([{opacity:0,transform:'translateY(20px) scale(.97)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:380,easing:'cubic-bezier(.2,.8,.2,1)'})}}
+function stepLb(d){if(!lbItems.length)return;gi=(gi+d+lbItems.length)%lbItems.length;showLb()}
 function closeLb(){$('#lb').hidden=true;document.body.style.overflow='';lastFocus&&lastFocus.focus()}
 /* ===== CONTACT FORM ===== */
 function initContact(){const f=$('#cf');f.addEventListener('submit',ev=>{ev.preventDefault();const v={fn:$('#fn').value.trim(),fe:$('#fe').value.trim(),fm:$('#fm').value.trim()},er={};if(v.fn.length<2)er.fn='Isi nama minimal 2 karakter.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.fe))er.fe='Masukkan alamat email yang valid.';if(v.fm.length<10)er.fm='Pesan minimal 10 karakter.';$$('.err',f).forEach(x=>x.textContent=er[x.dataset.e]||'');const st=$('#st'),first=Object.keys(er)[0];if(first){$('#'+first).focus();st.textContent='';return}if(!D.social.email){st.textContent='Email tujuan belum diisi. Isi portfolioData.social.email di file ini.';return}const body=encodeURIComponent(v.fm+'\n\n— '+v.fn+' ('+v.fe+')');location.href='mailto:'+D.social.email+'?subject='+encodeURIComponent('Pesan dari portfolio: '+v.fn)+'&body='+body;st.textContent='Aplikasi email dibuka. Pesan baru terkirim setelah Anda menekan kirim di aplikasi email.'})}
@@ -1124,7 +1279,7 @@ function initIntro(){
 
 /* ===== DEVELOPER RESET MODE =====
    Shortcut: Ctrl+Alt+Shift+R. Alternative: type AIMANRESET outside text fields.
-   Only the 7 seal progress is cleared. Theme choice remains untouched. */
+   Only the current visit's seven-seal progress is cleared. Theme choice remains untouched. */
 (function initDeveloperReset(){
   const dialog=$('#devResetDialog');
   const cancel=$('#devResetCancel');
@@ -1143,7 +1298,7 @@ function initIntro(){
   dialog.addEventListener('click',event=>{if(event.target===dialog)closeReset()});
   dialog.addEventListener('cancel',event=>{event.preventDefault();closeReset()});
   confirm.addEventListener('click',()=>{
-    // Reset only this portfolio's achievement state, not all localStorage.
+    // Clean up old versions' achievement storage without touching the chosen theme.
     try{localStorage.removeItem(VISITED_KEY)}catch(err){console.warn('LocalStorage unavailable:',err)}
     visitedSections.clear();
     applyVisitedCircuits();
